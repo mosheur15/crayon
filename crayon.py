@@ -1,6 +1,7 @@
 import os
 import questionary
 import gitFont
+import shutil
 
 def askForOption():
     nerd = "install nerd font"
@@ -25,6 +26,10 @@ def chooseFlavor(flavors):
     return question.ask()
 
 
+def askPath():
+    question = questionary.path("ttf file path:")
+    return question.ask()
+
 
 def main():
     ans = askForOption()
@@ -43,6 +48,12 @@ def main():
             f.write(font)
             os.system("termux-reload-settings")
 
+    else:
+        fontPath = os.path.expanduser('~')
+        fontPath = f'{fontPath}/.termux/font.ttf'
+        path = askPath()
+        shutil.copy2(path, fontPath)
+        os.system("termux-reload-settings")
 
 main()
 
